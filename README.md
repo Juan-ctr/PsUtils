@@ -3,7 +3,7 @@
 ## Colección de **scripts remotos** para PowerShell que se ejecutan directamente con:
 
 ```powershell
-iex "& { $(irm https://raw.githubusercontent.com/user1/PsUtils/main/Scripts/ListarArchivos.ps1) }"
+iex "& { $(irm https://raw.githubusercontent.com/Juan-ctr/PsUtils/main/Scripts/ListarArchivos.ps1) }"
 ```
 
 ### Actualmente incluye ListarArchivos, que recorre un directorio, lista los archivos y agrega al final de un archivo de salida un bloque por cada archivo con:
@@ -27,22 +27,22 @@ Requisitos
 ## Uso rápido:
 - Ejecutar todos los archivos desde el directorio actual → files.txt (append)
 ```powershell
-iex "& { $(irm https://raw.githubusercontent.com/user1/PsUtils/main/Scripts/ListarArchivos.ps1) }"
+iex "& { $(irm https://raw.githubusercontent.com/Juan-ctr/PsUtils/main/Scripts/ListarArchivos.ps1) }"
 ```
 
 - Filtrar por extensiones (ej. ps1 y ts) y escribir en contenido.txt
 ```powershell
-iex "& { $(irm https://raw.githubusercontent.com/user1/PsUtils/main/Scripts/ListarArchivos.ps1) } -Extensions ps1,ts -Output 'contenido.txt'"
+iex "& { $(irm https://raw.githubusercontent.com/Juan-ctr/PsUtils/main/Scripts/ListarArchivos.ps1) } -Extensions ps1,ts -Output 'contenido.txt'"
 ```
 
 - Cambiar la raíz de recorrido (ej. .\backend\src\modules) y solo json
 ```powershell
-iex "& { $(irm https://raw.githubusercontent.com/user1/PsUtils/main/Scripts/ListarArchivos.ps1) } -Root '.\backend\src\modules' -Extensions json"
+iex "& { $(irm https://raw.githubusercontent.com/Juan-ctr/PsUtils/main/Scripts/ListarArchivos.ps1) } -Root '.\backend\src\modules' -Extensions json"
 ```
 
 - Especificar una ruta absoluta para la salida
 ```powershell
-iex "& { $(irm https://raw.githubusercontent.com/user1/PsUtils/main/Scripts/ListarArchivos.ps1) } -Output 'C:\Temp\dump.txt'"
+iex "& { $(irm https://raw.githubusercontent.com/Juan-ctr/PsUtils/main/Scripts/ListarArchivos.ps1) } -Output 'C:\Temp\dump.txt'"
 ```
 
 - También podés usar alias de parámetros en español:
@@ -97,9 +97,19 @@ Cada archivo produce un bloque como:
 
     Si querés fijar una versión exacta, reemplazá main por un commit SHA específico en la URL:
 
-    iex "& { $(irm https://raw.githubusercontent.com/user1/PsUtils/<commit>/Scripts/ListarArchivos.ps1) }"
+    iex "& { $(irm https://raw.githubusercontent.com/Juan-ctr/PsUtils/<commit>/Scripts/ListarArchivos.ps1) }"
 
     Para volúmenes muy grandes de archivos, considerá ejecutar en PowerShell 7+ y excluir directorios pesados con un filtro propio previo si lo necesitás.
+
+## Recomendación
+
+    Se puede realizar una función en powershell para que el comando no sea tan extenso:
+    
+```powershell
+    $urlScript = "https://raw.githubusercontent.com/Juan-ctr/PsUtils/main/Scripts/ListarArchivos.ps1"
+    function be { &([ScriptBlock]::Create((irm $urlScript)))@args}
+    be -Root . -Extensions txt -Output files.txt -Overwrite 
+```
 
 ## Troubleshooting
 
